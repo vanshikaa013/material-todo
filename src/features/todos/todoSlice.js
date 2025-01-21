@@ -5,8 +5,9 @@ const todoSlice = createSlice({
   name: "todos",
   initialState: {
     isLoading: false,
+    isSuccess : false ,
     isError: false,
-    alltodos: [
+    allTodos: [
       // { id: 1, title: "Todo Title", description: " Todo Description" },
     ],
     edit: {
@@ -15,33 +16,30 @@ const todoSlice = createSlice({
     },
   },
   reducers: {
-    // remove: (state, action) => {
-    //   return {
-    //     ...state,
-    //     alltodos: state.alltodos.filter((item) => item.id !== action.payload),
-    //   };
-    // },
-    // add: (state, action) => {
-    //   return {
-    //     ...state,
-    //     alltodos: [...state.alltodos, action.payload],
-    //   };
-    // },
-    // edit : (state , action) =>{
-    //     return{
-    //         ...state,
-    //         edit: {
-    //             todo : action.payload,
-    //             isEdit: true,
-    //         }
-    //     }
-    // },
-    // update : (state , action)=>{
-    //   return{
-    //     ...state,
-    //     alltodos : state.alltodos.map((item)=> item.id === action.payload.id ? action.payload : item)
-    //   }
-    // }
+    remove: (state, action) => {
+      return {
+        ...state,
+        allTodos: state.allTodos.filter((item) => item._id !== action.payload),
+      };
+    },
+    add: (state, action) => {
+      return {
+        ...state,
+        allTodos: [...state.allTodos, action.payload],
+      };
+    },
+    edit: (state, action) => {
+      state.edit = {
+        todo: action.payload, // Ensure action.payload is the todo object
+        isEdit: true,
+      };
+    },
+    update : (state , action)=>{
+      return{
+        ...state,
+        allTodos : state.allTodos.map((item)=> item.id === action.payload.id ? action.payload : item)
+      }
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -52,7 +50,7 @@ const todoSlice = createSlice({
       .addCase(getTodos.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
-        state.alltodos = action.payload;
+        state.allTodos = action.payload;
       })
       .addCase(getTodos.rejected, (state, action) => {
         state.isLoading = false;
@@ -61,7 +59,7 @@ const todoSlice = createSlice({
   },
 });
 
-export const {} = todoSlice.actions;
+export const {edit , add , remove , update} = todoSlice.actions;
 
 export default todoSlice.reducer;
 
@@ -69,7 +67,7 @@ export default todoSlice.reducer;
 
 export const getTodos = createAsyncThunk("FETCH/TODOS", async () => {
   try {
-    fetchTodos()
+   return await fetchTodos()
     
   } catch (error) {
     console.log(error)

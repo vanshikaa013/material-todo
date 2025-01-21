@@ -1,7 +1,7 @@
 import { Button, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { add, update } from "../features/todos/todoSlice";
+import { add, update } from "../features/todos/todoSlice";
 
 const Form = () => {
 
@@ -12,13 +12,13 @@ const Form = () => {
   const dispatch = useDispatch();
 
   const addTodo = (title, description) => {
-    // dispatch(
-    //   add({
-    //     id: crypto.randomUUID(),
-    //     title: title,
-    //     description: description,
-    //   })
-    // );
+    dispatch(
+      add({
+        id: crypto.randomUUID(),
+        title: title,
+        description: description,
+      })
+    );
   };
 
   useEffect(()=>{
@@ -27,10 +27,10 @@ const Form = () => {
   },[edit])
 
   const handlesubmit = (e) => {
-    e.preventDefault();
-    // edit.isEdit ? 
-    // dispatch(update({id : edit.todo.id, title,description})):
-    // addTodo(title,description)
+    e.preventDefault(); 
+    edit.isEdit ? 
+    dispatch(update({id : edit.todo.id, title,description})):
+    addTodo(title,description)
     setTitle("");
     setDescription("");
   };

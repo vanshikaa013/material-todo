@@ -3,18 +3,18 @@ import { Box, Button, Divider, ListItem, Typography } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch } from "react-redux";
-// import { edit, remove } from "../features/todos/todoSlice";
+import { edit,  remove } from "../features/todos/todoSlice";
 
 
 const ListItemDetail = ({todo}) => {
 
 
     const removeTodo = (id) =>{
-        // dispatch(remove(id))
+        dispatch(remove(id))
     }
 
     const editTodo =(todo)=>{
-        // dispatch(edit(todo))
+        dispatch(edit(todo))
     }
     
     const dispatch = useDispatch()
@@ -22,8 +22,8 @@ const ListItemDetail = ({todo}) => {
     <>
       <ListItem>
         <Box flexGrow={1}>
-          <Typography variant="h6">title : </Typography>
-          <Typography variant="body 1">description</Typography>
+          <Typography variant="h6">title : {todo.title}</Typography>
+          <Typography variant="body 1">description :{todo.description}</Typography>
         </Box>
         <Box>
           <Button
@@ -42,7 +42,7 @@ const ListItemDetail = ({todo}) => {
             color="error"
             size="small"
             endIcon={<DeleteOutlineIcon />}
-            onClick={()=>removeTodo(todo.id)}
+            onClick={()=>removeTodo(todo._id)}
           >
             Delete
           </Button>
